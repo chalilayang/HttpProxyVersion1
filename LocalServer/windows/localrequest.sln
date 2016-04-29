@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "localrequest", "localrequest\localrequest.vcproj", "{8C65F0A5-E7B8-48A0-943D-A17A1C1ED44B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E13E2AF6-36BD-4BB2-8B7A-127CED0D8BD8} = {E13E2AF6-36BD-4BB2-8B7A-127CED0D8BD8}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winproject", "..\..\..\..\p2p\windows\winproject\winproject.vcproj", "{E13E2AF6-36BD-4BB2-8B7A-127CED0D8BD8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winacc", "winacc\winacc.vcproj", "{F427B062-5CFF-4D98-ACFE-B6F006BE3055}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C65F0A5-E7B8-48A0-943D-A17A1C1ED44B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8C65F0A5-E7B8-48A0-943D-A17A1C1ED44B}.Debug|Win32.Build.0 = Debug|Win32
+		{8C65F0A5-E7B8-48A0-943D-A17A1C1ED44B}.Release|Win32.ActiveCfg = Release|Win32
+		{8C65F0A5-E7B8-48A0-943D-A17A1C1ED44B}.Release|Win32.Build.0 = Release|Win32
+		{E13E2AF6-36BD-4BB2-8B7A-127CED0D8BD8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E13E2AF6-36BD-4BB2-8B7A-127CED0D8BD8}.Debug|Win32.Build.0 = Debug|Win32
+		{E13E2AF6-36BD-4BB2-8B7A-127CED0D8BD8}.Release|Win32.ActiveCfg = Release|Win32
+		{E13E2AF6-36BD-4BB2-8B7A-127CED0D8BD8}.Release|Win32.Build.0 = Release|Win32
+		{F427B062-5CFF-4D98-ACFE-B6F006BE3055}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F427B062-5CFF-4D98-ACFE-B6F006BE3055}.Debug|Win32.Build.0 = Debug|Win32
+		{F427B062-5CFF-4D98-ACFE-B6F006BE3055}.Release|Win32.ActiveCfg = Release|Win32
+		{F427B062-5CFF-4D98-ACFE-B6F006BE3055}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

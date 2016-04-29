@@ -1,0 +1,221 @@
+# generate file name
+EXECUTABLE := libSHP2PSystem.so
+
+# boost static lib path
+LIBDIR:= /home/yjwang/code_router/third/mips_boost_1_49_0/lib
+
+# boost static lib name
+LIBS += boost_date_time-mt-s\
+	boost_filesystem-mt-s\
+	boost_iostreams-mt-s\
+	boost_program_options-mt-s\
+	boost_regex-mt-s\
+	boost_signals-mt-s\
+	boost_system-mt-s\
+	boost_thread-mt-s\
+	pthread\
+	rt
+
+
+SOURCE_PATH:= .
+
+# include head file 
+# /home/yjwang/tools/toolchain-mipsel_24kec+dsp_gcc-4.6-linaro_uClibc-0.9.33.2/includ
+#$(SOURCE_PATH)/base/json
+INCLUDES = /home/yjwang/code_router/third/mips_boost_1_49_0/include \
+	/home/yjwang/tools/toolchain-mipsel_24kec+dsp_gcc-4.6-linaro_uClibc-0.9.33.2/include\
+	$(SOURCE_PATH) \
+	$(SOURCE_PATH)/api \
+	$(SOURCE_PATH)/base \
+	$(SOURCE_PATH)/download \
+	$(SOURCE_PATH)/base/threadpool \
+	$(SOURCE_PATH)/filesystem \
+	$(SOURCE_PATH)/log \
+	$(SOURCE_PATH)/mp4 \
+	$(SOURCE_PATH)/netbase \
+	$(SOURCE_PATH)/p2pbase \
+	$(SOURCE_PATH)/protocal \
+	$(SOURCE_PATH)/server \
+	$(SOURCE_PATH)/preload \
+	$(SOURCE_PATH)/localhttpserver 
+			
+#CC:=/home/yjwang/tools/toolchain-mipsel_24kec+dsp_gcc-4.6-linaro_uClibc-0.9.33.2/bin/mipsel-openwrt-linux-uclibc-g++
+CC:=mipsel-openwrt-linux-uclibc-g++
+CFLAGS := -g -Wall -O3 -DDIRECTW -DCPPINTERFACE
+CPPFLAGS := $(CFLAGS)
+CPPFLAGS += $(addprefix -I,$(INCLUDES))
+CPPFLAGS += -MMD
+
+M-F := rm -rf
+
+
+# source file path  #       $(SOURCE_PATH)/base/json
+SRCDIR := \
+	$(SOURCE_PATH)/api \
+	$(SOURCE_PATH)/base \
+	$(SOURCE_PATH)/download \
+	$(SOURCE_PATH)/filesystem \
+	$(SOURCE_PATH)/log \
+	$(SOURCE_PATH)/mp4 \
+	$(SOURCE_PATH)/netbase \
+	$(SOURCE_PATH)/p2pbase \
+	$(SOURCE_PATH)/protocal \
+	$(SOURCE_PATH)/server \
+	$(SOURCE_PATH)/preload
+
+SRC_FILES := \
+	$(SOURCE_PATH)/api/sh_p2p_system_api.cpp\
+	$(SOURCE_PATH)/api/sh_p2p_impl.cpp\
+	$(SOURCE_PATH)/sh_kernel.cpp
+#base
+SRC_FILES += \
+	$(SOURCE_PATH)/base/sohu_encrypt.cpp\
+	$(SOURCE_PATH)/base/asio_task.cpp\
+	$(SOURCE_PATH)/base/buffer_pool.cpp\
+	$(SOURCE_PATH)/base/crc32.cpp\
+	$(SOURCE_PATH)/base/file.cpp\
+	$(SOURCE_PATH)/base/file_api.cpp\
+	$(SOURCE_PATH)/base/id_generator.cpp\
+	$(SOURCE_PATH)/base/md5.cpp\
+	$(SOURCE_PATH)/base/sha1.cpp\
+	$(SOURCE_PATH)/base/simple_config.cpp\
+	$(SOURCE_PATH)/base/socket_api.cpp\
+	$(SOURCE_PATH)/base/json/json_reader.cpp\
+	$(SOURCE_PATH)/base/json/json_value.cpp\
+	$(SOURCE_PATH)/base/json/json_writer.cpp
+
+#download
+SRC_FILES += \
+	$(SOURCE_PATH)/download/disp_info.cpp\
+	$(SOURCE_PATH)/download/download_obj.cpp\
+	$(SOURCE_PATH)/download/http_connection.cpp\
+	$(SOURCE_PATH)/download/http_downloader.cpp\
+	$(SOURCE_PATH)/download/local_downloader.cpp\
+	$(SOURCE_PATH)/download/obj_manager.cpp\
+	$(SOURCE_PATH)/download/p2p_downloader.cpp\
+	$(SOURCE_PATH)/download/peer_connection.cpp\
+	$(SOURCE_PATH)/download/peer_pool.cpp\
+	$(SOURCE_PATH)/download/piece_cache.cpp\
+	$(SOURCE_PATH)/download/state_machine_download.cpp\
+	$(SOURCE_PATH)/download/state_machine_download_mor.cpp\
+	$(SOURCE_PATH)/download/state_machine_play.cpp\
+	$(SOURCE_PATH)/download/state_machine_play_mor.cpp\
+	$(SOURCE_PATH)/download/state_machine_urgent.cpp\
+	$(SOURCE_PATH)/download/state_machine_urgent_mor.cpp\
+	$(SOURCE_PATH)/download/state_machine_freecdn.cpp\
+	$(SOURCE_PATH)/download/status_report.cpp\
+        $(SOURCE_PATH)/download/p2p_ping_back.cpp\
+	$(SOURCE_PATH)/download/video_task.cpp\
+	$(SOURCE_PATH)/download/data_provider.cpp\
+	$(SOURCE_PATH)/download/merged_mp4_task.cpp\
+	$(SOURCE_PATH)/download/mp4_header_fetcher.cpp
+			
+#filesystem
+SRC_FILES += \
+	$(SOURCE_PATH)/filesystem/cache_file.cpp\
+	$(SOURCE_PATH)/filesystem/cache_record.cpp\
+	$(SOURCE_PATH)/filesystem/file_descriptor.cpp\
+	$(SOURCE_PATH)/filesystem/sh_storage_manager.cpp
+			
+#log
+SRC_FILES += \
+	$(SOURCE_PATH)/log/logger.cpp
+
+#mp4
+SRC_FILES += \
+	$(SOURCE_PATH)/mp4/mp4.cpp\
+	$(SOURCE_PATH)/mp4/mp4_parse.cpp\
+	$(SOURCE_PATH)/mp4/mp4_parse_tool.cpp\
+	$(SOURCE_PATH)/mp4/qt_header_analyze.cpp\
+	$(SOURCE_PATH)/mp4/qt_sequence_merge.cpp\
+	$(SOURCE_PATH)/mp4/merged_mp4_info.cpp
+				
+#netbase
+SRC_FILES += \
+	$(SOURCE_PATH)/netbase/get_http_file.cpp\
+	$(SOURCE_PATH)/netbase/http_client.cpp\
+	$(SOURCE_PATH)/netbase/http_request.cpp\
+	$(SOURCE_PATH)/netbase/http_response.cpp\
+	$(SOURCE_PATH)/netbase/http_server.cpp\
+	$(SOURCE_PATH)/netbase/http_service.cpp\
+	$(SOURCE_PATH)/netbase/tcp_client.cpp\
+	$(SOURCE_PATH)/netbase/udp_server.cpp
+				
+#p2pbase $(SOURCE_PATH)/p2pbase/ifaddrs.c
+SRC_FILES += \
+	$(SOURCE_PATH)/p2pbase/nat_detect.cpp\
+	$(SOURCE_PATH)/p2pbase/p2p_parameter.cpp\
+	$(SOURCE_PATH)/p2pbase/punch.cpp\
+	$(SOURCE_PATH)/p2pbase/punch_wrapper.cpp\
+	$(SOURCE_PATH)/p2pbase/async_punch_mgr.cpp\
+	$(SOURCE_PATH)/p2pbase/async_punch_obj.cpp\
+	$(SOURCE_PATH)/p2pbase/async_punch_wrapper.cpp\
+	$(SOURCE_PATH)/p2pbase/async_stun_obj.cpp\
+	$(SOURCE_PATH)/p2pbase/punch_protocol_imp.cpp
+				
+				
+#protocal
+SRC_FILES += \
+	$(SOURCE_PATH)/protocal/client_server_asio.cpp\
+	$(SOURCE_PATH)/protocal/navigation_client.cpp\
+	$(SOURCE_PATH)/protocal/packet_protocal.cpp\
+	$(SOURCE_PATH)/protocal/register_client.cpp\
+	$(SOURCE_PATH)/protocal/stat_client.cpp\
+	$(SOURCE_PATH)/protocal/tracker_client.cpp
+
+#server
+SRC_FILES += \
+	$(SOURCE_PATH)/server/cdn_fetcher.cpp\
+	$(SOURCE_PATH)/server/info_fetcher.cpp
+				
+#preload 
+SRC_FILES += \
+	$(SOURCE_PATH)/preload/preload_next.cpp
+
+#SRCS := $(wildcard *.cpp) $(wildcard $(addsuffix /*.cpp, $(SRCDIR)))
+OBJS := $(patsubst %.cpp,%.o,$(SRC_FILES))
+#OBJS = $(SRCS:.c=.o)
+
+#DEPS := $(patsubst %.o,%.d,$(OBJS))
+#MISSING_DEPS := $(filter-out $(wildcard $(DEPS)),$(DEPS))
+#MISSING_DEPS_SOURCES := $(wildcard $(patsubst %.d,%.cpp,$(MISSING_DEPS)))
+
+
+#.PHONY : all deps objs clean veryclean rebuild info
+
+all: $(EXECUTABLE)
+
+#deps : $(DEPS)
+
+#objs : $(OBJS)
+
+clean :
+	rm -rf *.o
+	find ./ -name "*.o" -print -exec rm -rf {} \;
+	rm -rf *.d;
+	find ./ -name "*.d" -print -exec rm -rf {} \;
+	rm -rf *.so
+
+rebuild: clean all
+ifneq ($(MISSING_DEPS),)
+$(MISSING_DEPS) :
+	@$(RM-F) $(patsubst %.d,%.o,$@)
+endif
+-include $(DEPS)
+
+$(EXECUTABLE) : $(OBJS)
+	$(CC)  -shared  -o $(EXECUTABLE) $(OBJS) $(addprefix -L,$(LIBDIR)) $(addprefix -l,$(LIBS))
+	cp -rf ./libSHP2PSystem.so ../src_local_server
+
+#$(OBJS) : $(SRCS)
+#	$(CC) $(CPPFLAGS) -o $@ -fPIC -c $<
+
+%.o:%.cpp
+	$(CC) $(CPPFLAGS) -o $@ -fPIC -c $<
+
+#info:
+#	@echo $(SRCS)
+#	@echo $(OBJS)
+#	@echo $(DEPS)
+#	@echo $(MISSING_DEPS)
+#	@echo $(MISSING_DEPS_SOURCES)

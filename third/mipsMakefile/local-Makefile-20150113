@@ -1,0 +1,113 @@
+# generate file name
+EXECUTABLE := libSHLocalRequest.so
+
+# boost static lib path
+LIBDIR := ./ /home/yjwang/code_router/third/mips_boost_1_49_0/lib
+
+# boost static lib name
+LIBS := boost_date_time-mt-s\
+	boost_filesystem-mt-s\
+	boost_iostreams-mt-s\
+	boost_program_options-mt-s\
+	boost_regex-mt-s\
+	boost_signals-mt-s\
+	boost_system-mt-s\
+	boost_thread-mt-s\
+	pthread\
+	SHP2PSystem
+	
+
+SOURCE_PATH:= .
+
+# include head file 
+# /home/yjwang/tools/toolchain-mipsel_24kec+dsp_gcc-4.6-linaro_uClibc-0.9.33.2/includ
+#$(SOURCE_PATH)/base/json
+INCLUDES = /home/yjwang/code_router/third/mips_boost_1_49_0/include \
+	/home/yjwang/tools/toolchain-mipsel_24kec+dsp_gcc-4.6-linaro_uClibc-0.9.33.2/include\
+	$(SOURCE_PATH)\
+	$(SOURCE_PATH)/include\
+	$(SOURCE_PATH)/p2pcommon\
+	$(SOURCE_PATH)/p2pcommon/base\
+	$(SOURCE_PATH)/p2pcommon/log\
+	$(SOURCE_PATH)/localhttpserver 
+			
+#CC:=/home/yjwang/tools/toolchain-mipsel_24kec+dsp_gcc-4.6-linaro_uClibc-0.9.33.2/bin/mipsel-openwrt-linux-uclibc-g++
+CC:=mipsel-openwrt-linux-uclibc-g++
+CFLAGS := -g -Wall -O3 -DDIRECTW -DCPPINTERFACE
+CPPFLAGS := $(CFLAGS)
+CPPFLAGS += $(addprefix -I,$(INCLUDES))
+CPPFLAGS += -MMD
+
+M-F := rm -rf
+
+
+# source file path  #       $(SOURCE_PATH)/base/json
+SRCDIR := \
+	$(SOURCE_PATH)/localhttpserver \
+	$(SOURCE_PATH)/p2pcommon \
+
+#p2pcommon  
+SRC_FILES := \
+	$(SOURCE_PATH)/p2pcommon/base/buffer_pool.cpp\
+	$(SOURCE_PATH)/p2pcommon/base/file.cpp\
+	$(SOURCE_PATH)/p2pcommon/base/file_api.cpp\
+	$(SOURCE_PATH)/p2pcommon/base/socket_api.cpp\
+	$(SOURCE_PATH)/p2pcommon/log/logger.cpp\
+	$(SOURCE_PATH)/p2pcommon/http_request.cpp\
+	$(SOURCE_PATH)/p2pcommon/http_response.cpp\
+	$(SOURCE_PATH)/p2pcommon/http_server.cpp\
+	$(SOURCE_PATH)/p2pcommon/http_service.cpp
+				
+#localhttpserver 
+SRC_FILES += \
+	$(SOURCE_PATH)/localhttpserver/local_http_connection.cpp\
+	$(SOURCE_PATH)/localhttpserver/local_http_server.cpp\
+	$(SOURCE_PATH)/localhttpserver/sh_local_server_api.cpp\
+	$(SOURCE_PATH)/localhttpserver/Utils.cpp
+
+#SRCS := $(wildcard *.cpp) $(wildcard $(addsuffix /*.cpp, $(SRCDIR)))
+OBJS := $(patsubst %.cpp,%.o,$(SRC_FILES))
+#OBJS = $(SRCS:.c=.o)
+
+#DEPS := $(patsubst %.o,%.d,$(OBJS))
+#MISSING_DEPS := $(filter-out $(wildcard $(DEPS)),$(DEPS))
+#MISSING_DEPS_SOURCES := $(wildcard $(patsubst %.d,%.cpp,$(MISSING_DEPS)))
+
+
+#.PHONY : all deps objs clean veryclean rebuild info
+
+all: $(EXECUTABLE)
+
+#deps : $(DEPS)
+
+#objs : $(OBJS)
+
+clean :
+	rm -rf *.o
+	find ./ -name "*.o" -print -exec rm -rf {} \;
+	rm -rf *.d;
+	find ./ -name "*.d" -print -exec rm -rf {} \;
+	rm -rf libSHLocalRequest.so
+
+rebuild: clean all
+ifneq ($(MISSING_DEPS),)
+$(MISSING_DEPS) :
+	@$(RM-F) $(patsubst %.d,%.o,$@)
+endif
+-include $(DEPS)
+
+$(EXECUTABLE) : $(OBJS)
+	$(CC)  -shared  -o $(EXECUTABLE) $(OBJS) $(addprefix -L,$(LIBDIR)) $(addprefix -l,$(LIBS)) 
+
+#$(OBJS) : $(SRCS)
+#	$(CC) $(CPPFLAGS) -o $@ -fPIC -c $<
+
+%.o:%.cpp
+	$(CC) $(CPPFLAGS) -o $@ -fPIC -c $<
+
+#info:
+#	@echo $(SRCS)
+#	@echo $(OBJS)
+#	@echo $(DEPS)
+#	@echo $(MISSING_DEPS)
+#	@echo $(MISSING_DEPS_SOURCES)

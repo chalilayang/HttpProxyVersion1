@@ -1,0 +1,129 @@
+LOCAL_PATH:=$(call my-dir)
+SYSROOT:=/Users/fogin/Documents/sohu/android-ndk-r9d/platforms/android-9/arch-arm
+LOCAL_CFLAGS:=-DANDROID
+#boost闈欐�佸簱鍖�
+include $(CLEAR_VARS)
+LOCAL_MODULE    := boost_date_time-gcc-mt  
+LOCAL_SRC_FILES := prebuild/libboost_date_time-gcc-mt-1_45.a   
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := boost_filesystem-gcc-mt  
+LOCAL_SRC_FILES := prebuild/libboost_filesystem-gcc-mt-1_45.a   
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := boost_iostreams-gcc-mt
+LOCAL_SRC_FILES := prebuild/libboost_iostreams-gcc-mt-1_45.a   
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := boost_program_options-gcc-mt
+LOCAL_SRC_FILES := prebuild/libboost_program_options-gcc-mt-1_45.a   
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := boost_regex-gcc-mt  
+LOCAL_SRC_FILES := prebuild/libboost_regex-gcc-mt-1_45.a   
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := boost_signals-gcc-mt  
+LOCAL_SRC_FILES := prebuild/libboost_signals-gcc-mt-1_45.a   
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := boost_system-gcc-mt
+LOCAL_SRC_FILES := prebuild/libboost_system-gcc-mt-1_45.a   
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := boost_thread-gcc-mt
+LOCAL_SRC_FILES := prebuild/libboost_thread-gcc-mt-1_45.a   
+include $(PREBUILT_STATIC_LIBRARY) 
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libSHP2PSystem
+LOCAL_SRC_FILES := prebuild/libSHP2PSystem.so
+include $(PREBUILT_SHARE_LIBRARY) 
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE:= StaticLocalRequest
+
+SOURCE_PATH:= ../../..
+
+#p2pcommon
+LOCAL_SRC_FILES := \
+				$(SOURCE_PATH)/p2pcommon/base/buffer_pool.cpp\
+				$(SOURCE_PATH)/p2pcommon/base/file.cpp\
+				$(SOURCE_PATH)/p2pcommon/log/logger.cpp\
+				$(SOURCE_PATH)/p2pcommon/http_request.cpp\
+				$(SOURCE_PATH)/p2pcommon/http_response.cpp\
+				$(SOURCE_PATH)/p2pcommon/http_server.cpp\
+				$(SOURCE_PATH)/p2pcommon/http_service.cpp
+				
+#localhttpserver
+LOCAL_SRC_FILES += \
+				$(SOURCE_PATH)/localhttpserver/local_http_connection.cpp\
+				$(SOURCE_PATH)/localhttpserver/local_http_server.cpp\
+				$(SOURCE_PATH)/localhttpserver/sh_local_server_api.cpp\
+				$(SOURCE_PATH)/localhttpserver/Utils.cpp
+
+#澶存枃浠剁洰褰�
+LOCAL_C_INCLUDES += \
+				/Users/fogin/Documents/sohu/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/include\
+				/Users/fogin/Documents/sohu/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi/include\
+				$(LOCAL_PATH)/boost/include/boost-1_45\
+				$(SOURCE_PATH)\
+				$(SOURCE_PATH)/include\
+				$(SOURCE_PATH)/p2pcommon\
+				$(SOURCE_PATH)/p2pcommon/base\
+				$(SOURCE_PATH)/p2pcommon/log\
+				$(SOURCE_PATH)/localhttpserver
+
+
+
+LOCAL_CPP_FEATURES += exceptions\
+					rtti
+#渚濊禆闈欐�佸簱
+LOCAL_STATIC_LIBRARIES := boost_date_time-gcc-mt\
+						boost_filesystem-gcc-mt\
+						boost_iostreams-gcc-mt\
+						boost_program_options-gcc-mt\
+						boost_regex-gcc-mt\
+						boost_signals-gcc-mt\
+						boost_system-gcc-mt\
+						boost_thread-gcc-mt\
+						libSHP2PSystem
+
+include $(BUILD_STATIC_LIBRARY)
+
+
+
+
+#鍔ㄦ�佸簱 鑷繁灏佽娴嬭瘯鐢�
+include $(CLEAR_VARS)
+LOCAL_MODULE:=SHLocalRequest
+
+SOURCE_PATH:=../source
+#search all cpp file add back
+#LOCAL_SRC_FILES += \
+#			local_http_server_jni.cpp
+
+
+LOCAL_C_INCLUDES += \
+				$(LOCAL_PATH)\
+				$(SOURCE_PATH)/api
+#渚濊禆闈欐�佸簱
+LOCAL_STATIC_LIBRARIES := StaticLocalRequest
+
+LOCAL_CPP_FEATURES += exceptions\
+					rtti
+
+LOCAL_LDFLAGS +=\
+				-Wl,-v
+
+LOCAL_LDLIBS :=-llog
+
+include $(BUILD_SHARED_LIBRARY)
